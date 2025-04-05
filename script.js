@@ -80,97 +80,162 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Обработка кнопок подтверждения
 // Конфигурация бота
+const BOT_TOKEN = "TOKEN";
+const CHAT_ID = "CHAT_ID";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Элементы формы
   const form = document.getElementById("telegram-form");
   const submitBtn = document.getElementById("telegram-submit");
   const successBlock = document.getElementById("telegram-success");
+  const guestNameInput = document.getElementById("guest-name");
+  const songInput = document.getElementById("song");
+  const songFormGroup = document.getElementById("song-form-group");
 
-  // Проверяем, открыт ли сайт в Telegram WebApp
-  const isTelegram =
-    window.Telegram && Telegram.WebApp && Telegram.WebApp.initData;
+  // 1. Проверяем, все ли элементы найдены
+  if (
+    !form ||
+    !submitBtn ||
+    !successBlock ||
+    !guestNameInput ||
+    !songInput ||
+    !songFormGroup
+  ) {
+    console.error("Ошибка: не найдены необходимые элементы формы");
+    return;
+  }
 
-  // Обработчик отправки формы
-  form.addEventListener("submit", async function (e) {
+  console.log("Все элементы формы найдены");
+
+  // 2. Обработка выбора "Приду/Не приду"
+  document.querySelectorAll('input[name="attendance"]').forEach((radio) => {
+    radio.addEventListener("change", function () {
+      songFormGroup.style.display =
+        this.value === "Я приду!" ? "block" : "none";
+      console.log("Выбрано:", this.value);
+    });
+  });
+
+  // 3. Обработка отправки формы
+  submitBtn.addEventListener("click", async function (e) {
     e.preventDefault();
+    console.log("Кнопка нажата");
 
-    // Собираем данные формы
+    // Получаем данные формы
     const formData = {
-      name: document.getElementById("guest-name").value.trim(),
+      name: guestNameInput.value.trim(),
       attendance: document.querySelector('input[name="attendance"]:checked')
         ?.value,
-      song: document.getElementById("song").value.trim(),
-      date: new Date().toLocaleString(),
+      song: songInput.value.trim(),
     };
+
+    console.log("Данные формы:", formData);
 
     // Валидация
     if (!formData.name) {
-      showAlert("Пожалуйста, введите ваше имя");
-      return;
-    }
-    if (!formData.attendance) {
-      showAlert("Пожалуйста, выберите вариант ответа");
+      showError("Пожалуйста, введите ваше имя");
+      guestNameInput.focus();
       return;
     }
 
+    if (!formData.attendance) {
+      showError("Пожалуйста, выберите вариант ответа");
+      return;
+    }
+
+    // Блокируем кнопку
     submitBtn.disabled = true;
     submitBtn.textContent = "Отправка...";
+    console.log("Начата отправка данных");
 
     try {
-      // Если открыто в Telegram - используем WebApp API
-      if (isTelegram) {
-        Telegram.WebApp.sendData(JSON.stringify(formData));
-        showSuccess();
-      }
-      // Если открыто в браузере - используем резервный метод
-      else {
-        await sendViaBrowser(formData);
-        showSuccess();
-      }
+      // Формируем сообщение
+      const message = createMessage(formData);
+      console.log("Сформировано сообщение:", message);
+
+      // Отправляем в Telegram
+      const response = await sendToTelegram(message);
+      console.log("Ответ от Telegram:", response);
+
+      // Успешная отправка
+      showSuccess();
+      console.log("Форма успешно отправлена");
     } catch (error) {
-      console.error("Ошибка:", error);
-      showAlert(
-        "Не удалось отправить. Попробуйте позже или свяжитесь с организаторами"
-      );
+      console.error("Ошибка отправки:", error);
+      showError(getErrorMessage(error));
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = "Отправить";
+      submitBtn.textContent = "Отправить через Telegram";
     }
   });
 
-  // Отправка через браузер (резервный метод)
-  async function sendViaBrowser(data) {
-    // Здесь можно добавить отправку на email или другие методы
-    const textToCopy =
-      `Данные для свадьбы:\n\n` +
-      `Имя: ${data.name}\n` +
-      `Присутствие: ${data.attendance}\n` +
-      (data.song ? `Любимый трек: ${data.song}\n` : "") +
-      `\nПожалуйста, отправьте эту информацию организаторам`;
+  // Функции помощники
 
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      showAlert("Данные скопированы! Отправьте их организаторам");
-    } catch {
-      // Если не поддерживается clipboard API
-      showAlert(`Отправьте организаторам:\n\n${textToCopy}`);
-    }
+  function createMessage(data) {
+    return (
+      `🎉 <b>Новое подтверждение на свадьбу!</b>\n\n` +
+      `👤 <b>Имя:</b> ${escapeHtml(data.name)}\n` +
+      `✏️ <b>Присутствие:</b> ${data.attendance}\n` +
+      (data.attendance === "Я приду!" && data.song
+        ? `🎵 <b>Любимый трек:</b> ${escapeHtml(data.song)}\n`
+        : "") +
+      `\n<i>Дата отправки:</i> ${new Date().toLocaleString()}`
+    );
   }
 
-  // Показать сообщение об успехе
+  async function sendToTelegram(message) {
+    const response = await fetch(
+      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+          parse_mode: "HTML",
+        }),
+      }
+    );
+
+    return await response.json();
+  }
+
   function showSuccess() {
     form.style.display = "none";
     successBlock.style.display = "block";
-    successBlock.scrollIntoView({ behavior: "smooth" });
   }
 
-  // Показать ошибку
-  function showAlert(message) {
-    const alert = document.createElement("div");
-    alert.className = "form-alert";
-    alert.textContent = message;
-    form.prepend(alert);
-    setTimeout(() => alert.remove(), 5000);
+  function showError(message) {
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "form-error";
+    errorDiv.textContent = message;
+
+    // Удаляем предыдущие ошибки
+    const oldError = form.querySelector(".form-error");
+    if (oldError) oldError.remove();
+
+    form.prepend(errorDiv);
+  }
+
+  function getErrorMessage(error) {
+    if (error.message.includes("chat not found")) {
+      return "Ошибка: чат не найден. Сообщите организаторам";
+    } else if (error.message.includes("bot was blocked")) {
+      return "Бот временно недоступен";
+    } else {
+      return "Не удалось отправить данные. Пожалуйста, попробуйте позже";
+    }
+  }
+
+  function escapeHtml(text) {
+    return text
+      .toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 });
