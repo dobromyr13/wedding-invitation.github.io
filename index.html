@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Приглашение на свадьбу</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@400;500;600&family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- Для современных браузеров (PNG/SVG) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-decoration">
+        <img src="head.png" alt="Украшение шапки" class="decoration-image" />
+      </div>
+      <!-- Основной блок с фото и именами -->
+      <div class="invitation-block">
+        <div class="overlay-photos">
+          <img src="wedding.jpg" alt="Основное фото" class="photo-main" />
+          <img
+            src="main_text.png"
+            alt="Накладываемое фото (с прозрачностью)"
+            class="photo-overlay"
+          />
+        </div>
+      </div>
+
+      <!-- Блок с датой -->
+      <div class="date-block">
+        <div class="waiting">ЖДЕМ ВАС</div>
+      </div>
+
+      <!-- Счетчик -->
+      <div class="countdown">
+        <div class="countdown-title">ДО НАШЕГО ТОРЖЕСТВА ОСТАЛОСЬ:</div>
+        <div class="countdown-timer">
+          <div class="time-unit">
+            <span class="time-value" id="days">364</span>
+            <span class="time-label">ДНЕЙ</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-value" id="hours">12</span>
+            <span class="time-label">ЧАСОВ</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-value" id="minutes">45</span>
+            <span class="time-label">МИНУТ</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-value" id="seconds">30</span>
+            <span class="time-label">СЕКУНД</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок для дополнительной фотографии -->
+      <div class="additional-photo-block">
+        <img
+          src="children.png"
+          alt="Дополнительная фотография"
+          id="additional-photo"
+        />
+      </div>
+      <!-- Основное содержимое -->
+      <main class="main">
+        <!-- Секция приглашения -->
+        <section class="section">
+          <h2 class="section-title">НАШИ РОДНЫЕ И ДРУЗЬЯ!</h2>
+          <div class="invitation-content">
+            <p class="invitation-text">
+              Один день в этом году станет для нас особенно важным, и мы хотим
+              провести его в кругу близких и друзей! С большим удовольствием
+              приглашаем Вас на наше свадебное торжество, которое состоится:
+            </p>
+
+            <div class="calendar">
+              <div class="calendar-month">АВГУСТ</div>
+              <div class="calendar-weekdays">
+                <span>пн</span>
+                <span>вт</span>
+                <span>ср</span>
+                <span>чт</span>
+                <span>пт</span>
+                <span>сб</span>
+                <span>вс</span>
+              </div>
+              <div class="calendar-days">
+                <span>28</span>
+                <span>29</span>
+                <span>30</span>
+                <span>31</span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+                <span>7</span>
+                <span class="wedding-day">
+                  8
+                  <svg class="heart-svg" viewBox="0 0 24 24">
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                      fill="none"
+                      stroke="#a52a2a"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+                <span>9</span>
+                <span>10</span>
+                <span>11</span>
+                <span>12</span>
+                <span>13</span>
+                <span>14</span>
+                <span>15</span>
+                <span>16</span>
+                <span>17</span>
+                <span>18</span>
+                <span>19</span>
+                <span>20</span>
+                <span>21</span>
+                <span>22</span>
+                <span>23</span>
+                <span>24</span>
+                <span>25</span>
+                <span>26</span>
+                <span>27</span>
+                <span>28</span>
+                <span>29</span>
+                <span>30</span>
+                <span>31</span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Место проведения -->
+        <section class="section">
+          <h2 class="section-title">Место проведения</h2>
+          <p class="section-text">
+            Ресторан "Перун"<br />Тамбов, Рассказовское ш. 8 км
+          </p>
+          <div
+            id="map"
+            style="width: 100%; height: 300px; margin-top: 20px"
+          ></div>
+        </section>
+
+        <!-- Расписание -->
+        <section class="section">
+          <h2 class="section-title">ПРОГРАММА ДНЯ</h2>
+          <div class="schedule-image-container">
+            <img
+              src="programma.png"
+              alt="Расписание свадебного дня"
+              class="schedule-image"
+            />
+          </div>
+        </section>
+
+        <!-- Пожелания по подаркам -->
+        <section class="section">
+          <h2 class="section-title">ДЕТАЛИ</h2>
+          <p class="section-text">
+            Если хотите порадовать нас цветами, мы будем рады, если каждый из
+            вас принесет по одному цветочку. Из них мы соберем один большой
+            букет, который станет символом нашей любви и вашей поддержки в этот
+            особенный день!
+          </p>
+        </section>
+
+        <!-- Подтверждение присутствия -->
+        <section class="section">
+          <h2 class="section-title">АНКЕТА</h2>
+          <p class="section-text" style="margin-bottom: 5px">
+            <!-- Уменьшаем отступ снизу -->
+            Это поможет нам лучше организовать праздник
+          </p>
+
+          <div id="telegram-success" style="display: none; margin-bottom: 15px">
+            <p
+              class="section-text"
+              style="font-size: 1.5rem; text-align: center"
+            >
+              ✓ Мы получили ваше подтверждение!
+            </p>
+          </div>
+
+          <div class="confirmation-form" id="telegram-form">
+            <div class="form-group">
+              <label for="guest-name" class="form-label"
+                >Ваше имя и фамилия:</label
+              >
+              <input
+                type="text"
+                id="guest-name"
+                class="form-input"
+                placeholder="Иван Иванов, Мария Иванова"
+                required
+              />
+            </div>
+
+            <div class="confirmation-radios">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="attendance"
+                  value="Я приду!"
+                  class="radio-input"
+                  required
+                />
+                <span class="radio-custom"></span>
+                <span class="radio-text">Я приду!</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="attendance"
+                  value="Прийти не смогу"
+                  class="radio-input"
+                />
+                <span class="radio-custom"></span>
+                <span class="radio-text">Прийти не смогу</span>
+              </label>
+            </div>
+
+            <div class="form-group" id="song-form-group">
+              <label for="song" class="form-label"
+                >Оставьте свой любимый музыкальный трек:</label
+              >
+              <input
+                type="text"
+                id="song"
+                class="form-input"
+                placeholder="The Weeknd - Blinding Lights"
+              />
+            </div>
+
+            <button id="telegram-submit" class="submit-button">
+              Отправить
+            </button>
+          </div>
+        </section>
+
+        <!-- Спасибо -->
+        <section class="section">
+          <h2 class="section-title">Спасибо!</h2>
+          <p class="section-text">
+            Спасибо, что разделите с нами этот важный день. Мы с нетерпением
+            ждем встречи с вами!
+          </p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© 2025 Наша свадьба</p>
+      </footer>
+    </div>
+
+    <script
+      src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU"
+      type="text/javascript"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>

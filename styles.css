@@ -1,0 +1,859 @@
+/* Общие стили */
+body {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  background: #f9f9f9;
+  background-size: cover; /* Растягивает картинку на весь экран */
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Исходные стили для container */
+.container {
+  text-align: center;
+  max-width: 1000px;
+  width: 100%;
+  padding: 20px;
+  margin: 20px;
+  /* Эффект пергаментной бумаги для контейнера */
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Стили для декоративной шапки */
+.header-decoration {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  text-align: center;
+  overflow: hidden; /* Обрезаем выходящие за пределы элементы */
+}
+
+.decoration-image {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Анимация для плавного появления */
+.header-decoration {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.header-decoration.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Анимации для всех основных блоков */
+.invitation-block,
+.date-block,
+.countdown,
+.section {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.invitation-block.visible,
+.date-block.visible,
+.countdown.visible,
+.section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Задержки для последовательного появления */
+.header-decoration {
+  transition-delay: 0s; /* Появится первым */
+}
+
+.invitation-block {
+  transition-delay: 0.2s; /* Увеличим задержку остальных */
+}
+.date-block {
+  transition-delay: 0.4s;
+}
+.countdown {
+  transition-delay: 0.6s;
+}
+.section {
+  transition-delay: 0.8s;
+}
+
+/* Новый блок с фотографиями */
+.invitation-block {
+  margin-bottom: 30px;
+}
+
+.invitation-block.visible .photo-main,
+.invitation-block.visible .photo-overlay {
+  opacity: 1;
+}
+
+.overlay-photos {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Устанавливаем такую же максимальную ширину */
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* Основное изображение */
+.photo-main {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* Накладываемое изображение */
+.photo-overlay {
+  position: absolute;
+  left: 0; /* Жестко прижимаем к левому краю */
+  bottom: 0; /* Жестко прижимаем к нижнему краю */
+  width: 95%; /* Ширина по содержимому */
+  height: 95%; /* Высота относительно основной картинки */
+  max-width: 100%; /* Максимальная ширина */
+  object-fit: contain; /* Сохраняем пропорции */
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1s ease-in-out 0.6s;
+
+  /* Убираем все декоративные элементы */
+  border: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Блок с датой */
+.date-block {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.waiting {
+  font-family: "Courier New", monospace;
+  font-size: 1.5rem;
+  color: #555;
+  font-style: italic;
+}
+
+/* Счетчик */
+.countdown {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.countdown-title {
+  font-family: "Courier New", monospace;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 15px;
+  padding: 0 10px;
+}
+
+.time-unit {
+  min-width: 70px;
+  text-align: center;
+}
+
+.time-value {
+  font-family: "Courier New", monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #a52a2a;
+}
+
+.time-label {
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Блок для дополнительной фотографии */
+.additional-photo-block {
+  margin: 40px auto;
+  max-width: 500px;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition-delay: 0.9s;
+}
+
+.additional-photo-block.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.additional-photo-block img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Стили для приглашения */
+.invitation-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.invitation-text {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.wedding-date {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  color: #e74c3c;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+/* Стили для календаря */
+.calendar {
+  background-color: transparent; /* Делаем фон прозрачным */
+  border-radius: 10px;
+  padding: 15px;
+  margin: 30px auto;
+  max-width: 400px;
+  box-shadow: none; /* Убираем тень */
+  border: 1px solid rgb(0, 0, 0); /* Легкая прозрачная рамка */
+}
+
+.calendar-month {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  color: #777;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.calendar-days span {
+  padding: 8px;
+  font-family: "Courier New", monospace;
+  color: #333;
+  border-radius: 5px;
+  position: relative;
+}
+
+/* Стили для SVG сердца */
+.wedding-day {
+  color: #e74c3c !important;
+  font-weight: bold;
+  padding: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.heart-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  animation: heartbeat 1.5s ease-in-out infinite both;
+  z-index: -1;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+}
+
+/* Дни из других месяцев */
+.calendar-days span:first-child,
+.calendar-days span:nth-child(2),
+.calendar-days span:nth-child(3),
+.calendar-days span:nth-child(4),
+.calendar-days span:nth-last-child(-n + 4) {
+  color: #aaa;
+}
+
+/* Секции */
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0 0 10px;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.section-text {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0;
+}
+
+/* Новые стили для расписания */
+.schedule-new {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 30px 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-left: 250px; /* Отступ для времени */
+}
+
+/* Вертикальная линия */
+.schedule-new::before {
+  content: "";
+  position: absolute;
+  left: 340px; /* Позиция линии */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #a52a2a;
+  opacity: 0.3;
+}
+
+.schedule-item-new {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.schedule-time-new {
+  font-family: "Courier New", monospace;
+  font-size: 1.8rem !important;
+  color: #a52a2a;
+  width: 70px; /* Фиксированная ширина */
+  text-align: right;
+  position: absolute;
+  left: -80px; /* Выносим время за пределы основного блока */
+}
+
+.schedule-event-new {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.7rem;
+  color: #555;
+  padding-left: 30px; /* Отступ от линии */
+  width: 100%;
+}
+
+.schedule-image-container {
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.schedule-image {
+  width: 100%;
+  border-radius: 0px;
+}
+
+/* Стили для кнопок подтверждения */
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.confirmation-button {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 200px;
+}
+
+.confirm-button {
+  background-color: #a52a2a;
+  color: white;
+  border: 2px solid #a52a2a;
+}
+
+.confirm-button:hover {
+  background-color: #8b2323;
+  border-color: #8b2323;
+}
+
+.decline-button {
+  background-color: transparent;
+  color: #555;
+  border: 2px solid #555;
+}
+
+.decline-button:hover {
+  background-color: #f5f5f5;
+}
+
+/* Стили для формы подтверждения */
+.confirmation-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #a52a2a;
+}
+
+.confirmation-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Стили для кастомных чекбоксов */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Кастомный чекбокс */
+.checkbox-custom {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a52a2a;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: all 0.3s;
+}
+
+/* Галочка (появляется при выборе) */
+.checkbox-custom::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  background-color: #a52a2a;
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+  opacity: 1;
+}
+
+/* Для варианта "Не смогу" — серый цвет */
+.checkbox-input[value="no"] + .checkbox-custom {
+  border-color: #777;
+}
+
+.checkbox-input[value="no"]:checked + .checkbox-custom {
+  background-color: #777;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 25px auto 0;
+  padding: 12px 25px;
+  background-color: #a52a2a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #8b2323;
+}
+
+/* Прячем поле с треком, если выбрано "Не смогу" */
+#song-form-group {
+  display: block;
+}
+
+.form-alert {
+  padding: 12px 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-family: "Cormorant Garamond", serif;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.form-error {
+  padding: 12px;
+  margin-bottom: 20px;
+  background-color: #ffebee;
+  color: #c62828;
+  border-radius: 4px;
+  animation: fadeIn 0.3s;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стиль для заблокированной кнопки */
+#telegram-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #cccccc;
+
+  .form-alert-info {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+
+    #telegram-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    #song-form-group {
+      display: none;
+    }
+
+    /* Подвал */
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .schedule-time-new {
+      width: 50px;
+      left: -60px;
+      font-size: 1.1rem;
+    }
+
+    .schedule-item-new {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    .schedule-line-new {
+      display: none;
+    }
+
+    /* Стили для радиокнопок */
+    .confirmation-radios {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .radio-input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .radio-custom {
+      position: relative;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #a52a2a;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    /* Стиль для выбранной радиокнопки */
+    .radio-input:checked + .radio-custom::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 8px;
+      height: 8px;
+      background: #a52a2a;
+      border-radius: 50%;
+    }
+
+    /* Стиль для варианта "Не смогу" */
+    .radio-input[value="no"] + .radio-custom {
+      border-color: #777;
+    }
+
+    .radio-input[value="no"]:checked + .radio-custom::after {
+      background: #777;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .decoration-image {
+        max-height: 150px;
+      }
+
+      .countdown-timer {
+        gap: 10px;
+      }
+
+      .time-unit {
+        min-width: 50px;
+      }
+
+      .calendar {
+        max-width: 100%;
+      }
+
+      .heart-svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      .confirmation-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .confirmation-button {
+        width: 100%;
+      }
+
+      .schedule-time-new {
+        left: -60px;
+        width: 50px;
+        font-size: 1.5rem !important;
+      }
+      .schedule-event-new {
+        font-size: 1.3rem;
+        padding-left: 20px;
+      }
+
+      /* Адаптивность для нового блока с фото */
+      .photo-overlay {
+        height: 25%;
+        max-width: 50%;
+      }
+
+      .schedule-new {
+        padding-left: 150px;
+      }
+
+      .schedule-new::before {
+        left: 240px;
+      }
+
+      .schedule-image-container {
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .decoration-image {
+        max-height: 120px;
+      }
+
+      .section-title {
+        font-size: 1.7rem;
+      }
+
+      .schedule-new {
+        padding-left: 70px;
+      }
+
+      .schedule-new::before {
+        left: 50px;
+      }
+
+      .schedule-time-new {
+        left: -50px;
+        width: 40px;
+        font-size: 1.4rem;
+      }
+      .schedule-event-new {
+        font-size: 1.3rem;
+      }
+
+      .schedule-image-container {
+        max-width: 100%;
+      }
+
+      .countdown-timer {
+        gap: 8px;
+        padding: 0 5px;
+        transform: scale(0.95);
+      }
+
+      .time-unit {
+        min-width: 65px;
+      }
+
+      .time-value {
+        font-size: 1.6rem;
+      }
+
+      .time-label {
+        font-size: 0.8rem;
+        white-space: normal;
+        line-height: 1.2;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .confirmation-form {
+        width: 95%; /* Чуть уже экрана */
+        padding: 15px;
+        margin: 0 auto;
+        transform: none; /* Убираем масштабирование */
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-input {
+        padding: 10px 12px;
+        font-size: 16px; /* Фиксированный размер для мобильных */
+        border: 1px solid #ddd; /* Четкие границы */
+      }
+
+      /* Радиокнопки - компактный вариант */
+      .confirmation-radios {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .radio-label {
+        font-size: 1rem;
+        align-items: center;
+      }
+    }
+  }
+}
