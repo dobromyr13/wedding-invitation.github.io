@@ -155,45 +155,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Функция сохранения в Google Таблицу
   async function saveToGoogleSheet(formData) {
-  // Ваш реальный URL скрипта
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3ZUu04SU166cWqYmIst3HVkNYNduG7UP9IIICipOlNfuLRWMlAJOXWvdx_d7TyxhX/exec";
-  
-  // 1. Создаем уникальный URL для обхода кэширования
-  const timestamp = new Date().getTime();
-  const url = `${SCRIPT_URL}?t=${timestamp}`;
-  
-  // 2. Формируем данные в текстовом формате
-  const payload = JSON.stringify({
-    name: formData.name,
-    attendance: formData.attendance,
-    song: formData.song || ""
-  });
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbzKpCumSUmcuve7LQZwsah71onS16XAmV6SWddRhCeijInP88gD848Ip_p6Bex-9s6F/exec";
 
-  try {
-    // 3. Отправляем через прокси-сервер CORS
-    const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    
-    const response = await fetch(PROXY_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain'  // Важно для GAS
-      },
-      body: payload
-    });
+    try {
+      // Вариант 1: Основной запрос
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain", // Важно для GAS
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          attendance: formData.attendance,
+          song: formData.song || "",
+        }),
+      });
 
-    if (!response.ok) throw new Error('Ошибка сервера');
-    
-    const result = await response.text();
-    return JSON.parse(result);
-    
-  } catch (error) {
-    console.error('Ошибка:', error);
-    return { 
-      success: false, 
-      error: 'Не удалось сохранить данные. Пожалуйста, попробуйте позже.' 
-    };
+      // Если ответ не OK, пробуем вариант с proxy
+      if (!response.ok) {
+        return await tryWithProxy(formData);
+      }
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error);
+
+      return result;
+    } catch (error) {
+      console.error("Ошибка:", error);
+      return await tryWithProxy(formData); // Пробуем через proxy
+    }
   }
-}
 
   // Резервный вариант с CORS proxy
   async function tryWithProxy(formData) {
