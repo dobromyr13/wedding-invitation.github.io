@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Функция сохранения в Google Таблицу
   async function saveToGoogleSheet(formData) {
   // Ваш реальный URL скрипта
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3ZUu04SU166cWqYmIst3HVkNYNduG7UP9IIICipOlNfuLRWMlAJOXWvdx_d7TyxhX/exec";
   
   // 1. Создаем уникальный URL для обхода кэширования
   const timestamp = new Date().getTime();
