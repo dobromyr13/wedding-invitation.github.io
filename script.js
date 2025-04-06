@@ -156,15 +156,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Функция сохранения в Google Таблицу
   async function saveToGoogleSheet(formData) {
     const SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbwSoSwVnB7VU8L1UmOveh8E3sqqSugJ3KgEJnIb4NjcNubqlLVFuekLLVQUtzW0Sjcm/exec";
+      "https://script.google.com/macros/s/AKfycbzKpCumSUmcuve7LQZwsah71onS16XAmV6SWddRhCeijInP88gD848Ip_p6Bex-9s6F/exec";
 
     try {
-      // Вариант 1: с использованием no-cors (если CORS не работает)
+      // Вариант 1: Основной запрос
       const response = await fetch(SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", // Важное изменение!
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "text/plain", // Важно для GAS
+          Accept: "application/json",
         },
         body: JSON.stringify({
           name: formData.name,
@@ -173,19 +173,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }),
       });
 
-      // Вариант 2: если используете proxy
-      // const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-      // const response = await fetch(PROXY_URL + SCRIPT_URL, {...});
+      // Если ответ не OK, пробуем вариант с proxy
+      if (!response.ok) {
+        return await tryWithProxy(formData);
+      }
 
-      // В режиме no-cors мы не можем прочитать ответ
-      console.log("Запрос отправлен (ответ не читаем в no-cors режиме)");
-      return { success: true };
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error);
+
+      return result;
     } catch (error) {
-      console.error("Ошибка сети:", error);
-      return {
-        success: false,
-        error: "Не удалось отправить данные",
-      };
+      console.error("Ошибка:", error);
+      return await tryWithProxy(formData); // Пробуем через proxy
+    }
+  }
+
+  // Резервный вариант с CORS proxy
+  async function tryWithProxy(formData) {
+    const PROXY_URL = "https://corsproxy.io/?";
+    const SCRIPT_URL = "https://script.google.com/.../exec";
+
+    try {
+      const response = await fetch(PROXY_URL + encodeURIComponent(SCRIPT_URL), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      return await response.json();
+    } catch (proxyError) {
+      throw new Error(`Ошибка: ${proxyError.message}`);
     }
   }
 
